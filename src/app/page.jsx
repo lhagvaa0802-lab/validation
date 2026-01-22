@@ -8,9 +8,10 @@ export default function Home() {
     lastName: "",
     userName: "",
   });
-
+  console.log("namedata", nameData);
   const onChangeData = (event) => {
     setNameData({ ...nameData, [event.target.name]: event.target.value });
+    console.log("event", event.target.name);
   };
   console.log(nameData);
 
@@ -72,7 +73,7 @@ const Hero = ({
 const Buttons = () => {
   return (
     <button
-      onClick={errorCheckj}
+      // onClick={errorCheckj}
       type="submit"
       className="mt-30 w-full rounded-md py-4 text-l font-semibold shadow-sm transition text-white bg-black"
     >
