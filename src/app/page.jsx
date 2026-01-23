@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const [nameData, setNameData] = useState({
@@ -8,12 +8,38 @@ export default function Home() {
     lastName: "",
     userName: "",
   });
+  const [error, setError] = useState();
+  const ref = useRef();
+  console.log("ref", ref);
+
   console.log("namedata", nameData);
   const onChangeData = (event) => {
     setNameData({ ...nameData, [event.target.name]: event.target.value });
     console.log("event", event.target.name);
   };
   console.log(nameData);
+
+  const validForm = () => {
+    const errorFirstName = nameData.firstName;
+    const errorLastName = nameData.lastName;
+    const errorUserName = nameData.userName;
+    let message = "";
+    if (errorFirstName == "") {
+      // alert("firstname must be filled");
+      message = "Yum bicheerei zaaval";
+    } else {
+      message = "";
+    }
+    if (errorLastName == "") {
+      message = "Yum bicheerei zaaval";
+    }
+    if (errorUserName == "") {
+      message = "Yum bicheerei zaaval";
+    }
+    // return false;
+    setError(message);
+  };
+  console.log(error);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
@@ -24,21 +50,26 @@ export default function Home() {
           onChangeData={onChangeData}
           name="firstName"
           value={nameData.firstName}
+          ref={ref}
         />
+        {error && <p className="text-red-500">{error}</p>}
         <Hero
-          label="First name"
+          label="Last name"
           onChangeData={onChangeData}
           name="lastName"
           value={nameData.lastName}
+          ref={ref}
         />
+        {error && <p className="text-red-500">{error}</p>}
         <Hero
-          label="First name"
+          label="User name"
           onChangeData={onChangeData}
           name="userName"
           value={nameData.userName}
+          ref={ref}
         />
-
-        <Buttons />
+        {error && <p className="text-red-500">{error}</p>}
+        <Buttons validForm={validForm} />
       </main>
     </div>
   );
@@ -50,6 +81,7 @@ const Hero = ({
   onChangeData,
   name,
   value,
+  ref,
 }) => {
   const inputClass = `text-xl mt-2 w-full rounded-md border bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-300 outline-none`;
 
@@ -65,15 +97,16 @@ const Hero = ({
         placeholder={placeholder}
         className={inputClass}
         value={value}
+        ref={ref}
       />
     </div>
   );
 };
 
-const Buttons = () => {
+const Buttons = ({ validForm }) => {
   return (
     <button
-      // onClick={errorCheckj}
+      onClick={validForm}
       type="submit"
       className="mt-30 w-full rounded-md py-4 text-l font-semibold shadow-sm transition text-white bg-black"
     >
